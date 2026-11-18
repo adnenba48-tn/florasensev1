@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>FloraSense — Smart Agriculture IoT Platform</title>
+
+  <!-- Anti-FOUC Early Theme Script per Modern Web Guidance -->
+  <script>
+    try {
+      const scheme = localStorage.getItem("color-scheme");
+      if (scheme) {
+        document.documentElement.setAttribute('data-theme', scheme);
+        document.querySelector('meta[name="color-scheme"]').content = scheme;
+      }
+      const lang = localStorage.getItem("florasense_lang");
+      if (lang) {
+        document.documentElement.lang = lang;
+        document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+      }
+    } catch (e) {}
+  </script>
+
+  <!-- Official Favicon -->
+  <link rel="icon" type="image/png" href="../assets/florasense_logo_clean.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Chart.js Standalone Local Library -->
+  <script src="../assets/chart.umd.min.js"></script>
+</head>
+<body>
+
+<div class="app-layout">
+
+  <!-- ====================================================================
+       1. Left Sidebar Navigation (Compact & Pixel-Matched to Reference)
+       ==================================================================== -->
+  <aside class="app-sidebar" id="appSidebar">
+    <!-- Brand Header -->
+    <a href="#" class="brand-header">
+      <img src="../assets/florasense_logo_clean.png" alt="FloraSense Logo" class="brand-logo">
+      <div class="brand-text">
+        <h1 class="brand-name">FloraSense</h1>
+        <span class="brand-tagline" data-i18n="brand_sub">Smart Plant Care</span>
+      </div>
+    </a>
+
+    <!-- Navigation Menu -->
+    <nav class="sidebar-nav">
+      <ul class="nav-list">
+        <li>
+          <a href="#dashboard" class="nav-item active" id="navDashboard">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+            <span data-i18n="nav_dashboard">Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="#history" class="nav-item" id="navHistory">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            <span data-i18n="nav_history">History</span>
+          </a>
+        </li>
+        <li>
+          <a href="#notifications" class="nav-item" id="navNotifications">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+            <span data-i18n="nav_notifications">Notifications</span>
+            <span class="nav-badge-pill">3</span>
+          </a>
+        </li>
+        <li>
+          <a href="#settings" class="nav-item" id="navSettings">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+            <span data-i18n="nav_settings">Settings</span>
+          </a>
+        </li>
+        <li>
+          <a href="#about" class="nav-item" id="navAbout">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="16" x2="12" y2="12"/>
+              <line x1="12" y1="8" x2="12.01" y2="8"/>
+            </svg>
+            <span data-i18n="nav_about">About</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Sidebar Hardware Status Box -->
+    <div class="sidebar-hardware-box" id="sidebarHardwareCard">
+      <div class="hw-status-header">
+        <span class="hw-dot" id="sidebarStatusDot"></span>
+        <span class="hw-label" data-i18n="sidebar_esp32">ESP32</span>
+      </div>
+      <div class="hw-state-text" id="sidebarStatusText" data-i18n="sidebar_connected">Connected</div>
+      <div class="hw-ip-text" id="sidebarIpText">IP: 192.168.137.47</div>
+    </div>
+
+    <!-- Bottom Realistic Seedling in Rich Soil -->
+    <div class="sidebar-sprout-container">
+      <img src="../assets/sidebar_sprout.png" alt="Seedling" class="sidebar-sprout-img">
+    </div>
+  </aside>
+
+  <!-- ====================================================================
+       2. Main Content Dashboard (Matching IMAGE 1 Proportions)
+       ==================================================================== -->
+  <main class="main-viewport">
+
+    <!-- Topbar Navigation Bar -->
+    <header class="app-topbar">
+      <!-- Search Input -->
+      <div class="topbar-search">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input type="search" class="search-input" placeholder="Search..." data-i18n-placeholder="search_placeholder">
+      </div>
+
+      <!-- Controls Row -->
+      <div class="topbar-controls">
+        <!-- Language Switcher Pill -->
+        <button class="topbar-btn lang-btn" id="langSelectBtn" title="Switch Language">EN</button>
+
+        <!-- Theme Toggle Capsule (Sun & Moon) -->
+        <button class="theme-capsule-btn" id="themeToggleBtn" aria-label="Toggle Dark/Light Mode">
+          <span class="theme-icon sun-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3" stroke="currentColor" stroke-width="2"/>
+              <line x1="12" y1="21" x2="12" y2="23" stroke="currentColor" stroke-width="2"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke="currentColor" stroke-width="2"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke="currentColor" stroke-width="2"/>
+              <line x1="1" y1="12" x2="3" y2="12" stroke="currentColor" stroke-width="2"/>
+              <line x1="21" y1="12" x2="23" y2="12" stroke="currentColor" stroke-width="2"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke="currentColor" stroke-width="2"/>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </span>
+          <span class="theme-icon moon-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+          </span>
+        </button>
+
+        <!-- Notification Bell Button -->
+        <button class="topbar-btn notif-btn" onclick="openModal('notifModal')" aria-label="Notifications">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+        </button>
+
+        <!-- Profile Avatar Circle -->
+        <div class="user-avatar-badge" title="Administrator">A</div>
+      </div>
+    </header>
+
+    <!-- Panoramic Hero Banner (Matching Exact Proportions of IMAGE 1) -->
+    <section class="hero-card">
+      <div class="hero-left-col">
+        <div class="hero-tag-pill" data-i18n="hero_badge">🌿 IoT Smart Agriculture</div>
+        <h2 class="hero-brand-title" data-i18n="hero_title">FloraSense</h2>
+        <div class="hero-subheading" data-i18n="hero_subtitle">Monitor · Protect · Grow</div>
+        <p class="hero-tagline" data-i18n="hero_desc">
+          Smart monitoring for healthier plants with ESP32 and IoT technology
+        </p>
+
+        <div class="hero-actions">
+          <a href="#metrics" class="btn-live-dashboard" id="heroLiveBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <rect x="3" y="3" width="7" height="7"/>
+              <rect x="14" y="3" width="7" height="7"/>
+              <rect x="14" y="14" width="7" height="7"/>
+              <rect x="3" y="14" width="7" height="7"/>
+            </svg>
+            <span data-i18n="hero_live_btn">Live Dashboard</span>
+          </a>
+          <button class="btn-learn-more" id="heroLearnBtn" data-i18n="hero_learn_btn">Learn More</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 Horizontal Sensor Metric Cards (Compact & Styled to Reference) -->
+    <section class="sensor-cards-row" id="metrics">
+
+      <!-- 1. Temperature Card -->
+      <div class="sensor-pill-card">
+        <div class="card-inner-top">
+          <div class="sensor-icon-bubble temp-bubble">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/>
+            </svg>
+          </div>
+          <div class="sensor-data-col">
+            <div class="sensor-val" id="valTemp">25.3°C</div>
+            <div class="sensor-label" data-i18n="metric_temp">Temperature</div>
+          </div>
+        </div>
+        <!-- Glowing Red Sparkline Wave -->
+        <svg class="sensor-wave wave-temp" viewBox="0 0 120 18" preserveAspectRatio="none">
+          <path d="M 0 10 Q 20 16, 40 8 T 80 12 T 120 7" fill="none" stroke="#ef4444" stroke-width="2"/>
+        </svg>
+      </div>
+
+      <!-- 2. Humidity Card -->
+      <div class="sensor-pill-card">
+        <div class="card-inner-top">
+          <div class="sensor-icon-bubble hum-bubble">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+            </svg>
+          </div>
+          <div class="sensor-data-col">
+            <div class="sensor-val" id="valHum">66.0%</div>
+            <div class="sensor-label" data-i18n="metric_hum">Humidity</div>
+          </div>
+        </div>
+        <!-- Glowing Blue Sparkline Wave -->
+        <svg class="sensor-wave wave-hum" viewBox="0 0 120 18" preserveAspectRatio="none">
+          <path d="M 0 12 Q 25 4, 50 14 T 85 9 T 120 13" fill="none" stroke="#38bdf8" stroke-width="2"/>
+        </svg>
+      </div>
+
+      <!-- 3. Soil Moisture Card -->
+      <div class="sensor-pill-card">
+        <div class="card-inner-top">
+          <div class="sensor-icon-bubble soil-bubble">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+            </svg>
+          </div>
+          <div class="sensor-data-col">
+            <div class="sensor-val" id="valSoil">0%</div>
+            <div class="sensor-label" data-i18n="metric_soil">Soil Moisture</div>
+          </div>
+        </div>
+        <!-- Glowing Amber Sparkline Wave -->
+        <svg class="sensor-wave wave-soil" viewBox="0 0 120 18" preserveAspectRatio="none">
+          <path d="M 0 8 Q 20 15, 45 6 T 90 14 T 120 9" fill="none" stroke="#d97706" stroke-width="2"/>
+        </svg>
+      </div>
+
+      <!-- 4. Light Condition Card -->
+      <div class="sensor-pill-card">
+        <div class="card-inner-top">
+          <div class="sensor-icon-bubble light-bubble">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            </svg>
+          </div>
+          <div class="sensor-data-col">
+            <div class="sensor-val" id="valLight">DARK</div>
+            <div class="sensor-label" data-i18n="metric_light">Light</div>
+          </div>
+        </div>
+        <!-- Glowing Yellow Sparkline Wave -->
+        <svg class="sensor-wave wave-light" viewBox="0 0 120 18" preserveAspectRatio="none">
+          <path d="M 0 14 Q 30 6, 60 15 T 100 8 T 120 11" fill="none" stroke="#eab308" stroke-width="2"/>
+        </svg>
+      </div>
+
+      <!-- 5. Plant Status Card -->
+      <div class="sensor-pill-card">
+        <div class="card-inner-top">
+          <div class="sensor-icon-bubble status-bubble" id="cardStatusBubble">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+          </div>
+          <div class="sensor-data-col">
+            <div class="sensor-val status-val" id="valStatus">DANGER</div>
+            <div class="sensor-label" data-i18n="metric_status">Plant Status</div>
+          </div>
+        </div>
+        <!-- Glowing Status Wave -->
+        <svg class="sensor-wave wave-status" viewBox="0 0 120 18" preserveAspectRatio="none">
+          <path d="M 0 11 Q 20 17, 50 6 T 90 15 T 120 8" fill="none" stroke="#ef4444" stroke-width="2" id="waveStatusPath"/>
+        </svg>
+      </div>
+
+    </section>
+
+    <!-- Lower Section: 3 Panels (Sensors History, ESP32 Status, Quick Actions) -->
+    <div class="dashboard-trio-row">
+
+      <!-- Panel 1: Sensors History Chart -->
+      <section class="dash-panel history-panel">
+        <header class="panel-header">
+          <div class="panel-title-group">
+            <h3 class="panel-heading" data-i18n="history_title">Sensors History</h3>
+            <div class="history-legend-dots">
+              <span class="legend-pill"><i class="dot-temp"></i> <span data-i18n="metric_temp">Temp</span></span>
+              <span class="legend-pill"><i class="dot-hum"></i> <span data-i18n="metric_hum">Humidity</span></span>
+              <span class="legend-pill"><i class="dot-soil"></i> <span data-i18n="metric_soil">Soil</span></span>
+            </div>
+          </div>
+
+          <select class="history-time-select" id="chartFilter">
+            <option value="hour" data-i18n="filter_last_hour">Last Hour</option>
+            <option value="6h" data-i18n="filter_last_6h">Last 6 Hours</option>
+            <option value="24h" data-i18n="filter_last_24h">24 Hours</option>
+            <option value="live" data-i18n="filter_live">Live Feed</option>
+          </select>
+        </header>
+
+        <div class="chart-wrapper-box">
+          <canvas id="sensorsChart"></canvas>
+        </div>
+      </section>
+
+      <!-- Panel 2: ESP32 Status Card with Real Board Graphic -->
+      <section class="dash-panel esp32-panel">
+        <header class="panel-header">
+          <h3 class="panel-heading" data-i18n="esp32_card_title">ESP32 Status</h3>
+        </header>
+
+        <div class="esp32-panel-body">
+          <div class="esp32-meta-row">
+            <div class="esp32-wifi-badge">
+              <svg class="wifi-glyph" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5">
+                <path d="M5 12.55a11 11 0 0 1 14.08 0"/>
+                <path d="M1.42 9a16 16 0 0 1 21.16 0"/>
+                <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+                <line x1="12" y1="20" x2="12.01" y2="20"/>
+              </svg>
+              <div>
+                <div class="esp32-status-tag" id="esp32MainStatusText" data-i18n="sidebar_connected">Connected</div>
+                <div class="esp32-ip-tag" id="esp32MainIpText">IP: 192.168.137.47</div>
+              </div>
+            </div>
+
+            <!-- ESP32 Board Graphic -->
+            <img src="../assets/esp32_real.png" alt="ESP32 Board" class="esp32-hardware-thumbnail">
+          </div>
+
+          <div class="esp32-last-ping">
+            <span class="last-ping-label" data-i18n="esp32_last_update">Last Update</span>
+            <span class="last-ping-val" id="esp32LastUpdateText">Apr 26, 2025 • 12:50:32</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel 3: Quick Actions Buttons -->
+      <section class="dash-panel actions-panel">
+        <header class="panel-header">
+          <h3 class="panel-heading" data-i18n="quick_actions_title">Quick Actions</h3>
+        </header>
+
+        <div class="actions-pill-stack">
+          <button class="quick-pill-btn" id="refreshActionBtn">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="23 4 23 10 17 10"/>
+              <polyline points="1 20 1 14 7 14"/>
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+            </svg>
+            <span data-i18n="action_refresh">Refresh Data</span>
+          </button>
+
+          <button class="quick-pill-btn" id="exportActionBtn">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            <span data-i18n="action_export">Export Data</span>
+          </button>
+
+          <button class="quick-pill-btn" id="quickSettingsBtn">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+            <span data-i18n="action_settings">Settings</span>
+          </button>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Glowing Botanical Footer (Matching Reference) -->
+    <footer class="app-footer-bar">
+      <div class="footer-center-slogan">
+        <svg class="footer-leaf-icon" viewBox="0 0 24 24" fill="#22c55e">
+          <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+        </svg>
+        <span class="footer-text-content" data-i18n="footer_text">🌱 Green Future  •  Smart Technology  •  FloraSense</span>
+        <svg class="footer-leaf-icon" viewBox="0 0 24 24" fill="#22c55e">
+          <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+        </svg>
+      </div>
+    </footer>
+
+  </main>
+</div>
+
+<!-- ====================================================================
+     3. Modals (Settings, History, Notifications, About)
+     ==================================================================== -->
+
+<!-- Settings Modal -->
+<div class="modal-backdrop" id="settingsModal">
+  <div class="modal-dialog">
+    <header class="modal-header">
+      <h3 class="modal-title" data-i18n="settings_title">System Settings</h3>
+      <button class="modal-close-btn" onclick="closeModal('settingsModal')">&times;</button>
+    </header>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label" data-i18n="settings_lang">Language</label>
+        <select class="form-select" id="settingsLangSelect">
+          <option value="en">English (US)</option>
+          <option value="fr">Français (FR)</option>
+          <option value="ar">العربية (Arabic)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" data-i18n="settings_theme">Theme</label>
+        <select class="form-select" id="settingsThemeSelect">
+          <option value="system" data-i18n="settings_theme_system">System Default</option>
+          <option value="dark" data-i18n="settings_theme_dark">Dark Theme</option>
+          <option value="light" data-i18n="settings_theme_light">Light Theme</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" data-i18n="settings_refresh_rate">Dashboard Refresh Rate</label>
+        <select class="form-select" id="settingsIntervalSelect">
+          <option value="2000">2 Seconds (Fast)</option>
+          <option value="5000" selected>5 Seconds (ESP32 Standard)</option>
+          <option value="10000">10 Seconds (Power Saver)</option>
+          <option value="30000">30 Seconds</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" data-i18n="settings_api_url">Backend API URL</label>
+        <input type="url" class="form-input" id="settingsApiUrlInput" placeholder="http://localhost:3000">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" data-i18n="settings_db_status">MongoDB Database Status</label>
+        <div id="settingsDbStatusText" style="font-weight:700; color:var(--brand-neon); font-family:var(--font-mono); font-size:0.85rem;">
+          CHECKING STATUS...
+        </div>
+      </div>
+    </div>
+    <footer style="display:flex; justify-content:flex-end; gap:0.5rem; margin-block-start:1.5rem;">
+      <button class="btn-learn-more" onclick="closeModal('settingsModal')" data-i18n="modal_close">Close</button>
+      <button class="btn-live-dashboard" id="settingsSaveBtn" data-i18n="settings_save">Save & Apply</button>
+    </footer>
+  </div>
+</div>
+
+<!-- History Modal -->
+<div class="modal-backdrop" id="historyModal">
+  <div class="modal-dialog" style="max-inline-size:750px;">
+    <header class="modal-header">
+      <h3 class="modal-title" data-i18n="history_modal_title">Telemetry History Log</h3>
+      <button class="modal-close-btn" onclick="closeModal('historyModal')">&times;</button>
+    </header>
+    <div class="modal-body">
+      <div class="history-table-container">
+        <table class="history-table">
+          <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>Temp</th>
+              <th>Humidity</th>
+              <th>Soil</th>
+              <th>Light</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="historyTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+    <footer style="display:flex; justify-content:space-between; align-items:center;">
+      <button class="btn-learn-more" id="historyExportModalBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        <span data-i18n="history_export_btn">Download CSV</span>
+      </button>
+      <button class="btn-live-dashboard" onclick="closeModal('historyModal')" data-i18n="modal_close">Close</button>
+    </footer>
+  </div>
+</div>
+
+<!-- Notifications Modal -->
+<div class="modal-backdrop" id="notifModal">
+  <div class="modal-dialog">
+    <header class="modal-header">
+      <h3 class="modal-title" data-i18n="notif_title">System Notifications</h3>
+      <button class="modal-close-btn" onclick="closeModal('notifModal')">&times;</button>
+    </header>
+    <div class="modal-body">
+      <div class="notification-item">
+        <div class="notif-badge"></div>
+        <div>
+          <div style="font-weight:700;">FloraSense System Active</div>
+          <div style="font-size:0.85rem; color:var(--text-dim);" data-i18n="notif_welcome">FloraSense dashboard initialized successfully.</div>
+        </div>
+      </div>
+      <div class="notification-item">
+        <div class="notif-badge alert"></div>
+        <div>
+          <div style="font-weight:700;">Database Integration Status</div>
+          <div style="font-size:0.85rem; color:var(--text-dim);" data-i18n="notif_db_info">MongoDB is in memory-buffered mode (Pending Atlas connection string).</div>
+        </div>
+      </div>
+      <div class="notification-item">
+        <div class="notif-badge danger"></div>
+        <div>
+          <div style="font-weight:700;">Hardware Telemetry Monitor</div>
+          <div style="font-size:0.85rem; color:var(--text-dim);" data-i18n="notif_offline_alert">ESP32 hardware is currently offline or not transmitting.</div>
+        </div>
+      </div>
+    </div>
+    <footer style="display:flex; justify-content:flex-end;">
+      <button class="btn-live-dashboard" onclick="closeModal('notifModal')" data-i18n="modal_close">Close</button>
+    </footer>
+  </div>
+</div>
+
+<!-- About Modal -->
+<div class="modal-backdrop" id="aboutModal">
+  <div class="modal-dialog">
+    <header class="modal-header">
+      <h3 class="modal-title" data-i18n="about_title">About FloraSense IoT</h3>
+      <button class="modal-close-btn" onclick="closeModal('aboutModal')">&times;</button>
+    </header>
+    <div class="modal-body" style="font-size:0.9rem; line-height:1.6; display:flex; flex-direction:column; gap:1rem;">
+      <p data-i18n="about_desc">
+        FloraSense is an advanced smart-agriculture IoT platform integrating real physical ESP32 microcontrollers, DHT11 sensors, analog soil moisture probes, digital LDRs, and MongoDB Atlas for real-time plant care automation.
+      </p>
+      <div style="background:var(--bg-surface-elevated); padding:0.8rem; border-radius:10px; border:1px solid var(--border-subtle);">
+        <strong style="color:var(--brand-neon);">Hardware Pinout (ESP32 Dev Module):</strong>
+        <ul style="margin-inline-start:1.2rem; margin-block-start:0.5rem;">
+          <li>DHT11 Climate Data: GPIO 5</li>
+          <li>Soil Moisture Sensor (AO): GPIO 34 (12-bit ADC)</li>
+          <li>LDR Light Sensor (DO): GPIO 27</li>
+          <li>Green LED (Optimal): GPIO 23</li>
+          <li>Orange LED (Alert): GPIO 19</li>
+          <li>Red LED (Danger): GPIO 26</li>
+          <li>LCD 16x2 I2C: SDA GPIO 21, SCL GPIO 22 (0x27)</li>
+        </ul>
+      </div>
+    </div>
+    <footer style="display:flex; justify-content:flex-end; margin-block-start:1rem;">
+      <button class="btn-live-dashboard" onclick="closeModal('aboutModal')" data-i18n="modal_close">Close</button>
+    </footer>
+  </div>
+</div>
+
+<!-- Main Application JS Script -->
+<script src="js/app.js"></script>
+
+</body>
+</html>

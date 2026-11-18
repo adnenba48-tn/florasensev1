@@ -1,0 +1,1136 @@
+/**
+ * FloraSense IoT Platform - Refined Modern Design System
+ * Pixel-perfect adaptation matching Reference Design (IMAGE 1)
+ * High-precision typography, compact proportions, and dual-theme fidelity
+ */
+
+/* ==========================================================================
+   1. Design Tokens & Color Schemes
+   ========================================================================== */
+
+:root {
+  color-scheme: light dark;
+
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-arabic: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Universal Metric Colors */
+  --metric-temp: #ef4444;
+  --metric-hum: #38bdf8;
+  --metric-soil: #d97706;
+  --metric-light: #eab308;
+  --metric-danger: #ef4444;
+  --metric-optimal: #22c55e;
+  --metric-alert: #f97316;
+
+  --trans-fast: 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  --trans-smooth: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --------------------------------------------------------------------------
+   DARK MODE (Matches IMAGE 1 Reference)
+   -------------------------------------------------------------------------- */
+:root,
+:root:has(> head > meta[name="color-scheme"][content="dark"]),
+[data-theme="dark"] {
+  --bg-body: #070e0a;
+  --bg-sidebar: rgba(9, 17, 12, 0.94);
+  --bg-card: rgba(14, 25, 18, 0.82);
+  --bg-card-hover: rgba(20, 36, 26, 0.95);
+  --bg-card-inner: rgba(6, 14, 9, 0.7);
+  --bg-input: rgba(12, 22, 16, 0.85);
+
+  --border-card: rgba(34, 197, 94, 0.22);
+  --border-subtle: rgba(34, 197, 94, 0.14);
+  --border-focus: rgba(0, 255, 136, 0.6);
+  --border-glow: 0 0 15px rgba(0, 255, 136, 0.25);
+
+  --brand-neon: #00ff88;
+  --brand-green: #22c55e;
+  --brand-dark-text: #042414;
+
+  --text-main: #f0fdf4;
+  --text-sub: #a7f3d0;
+  --text-dim: #9ca3af;
+  --text-heading: #ffffff;
+
+  --hero-wallpaper: url('../../assets/hero_wallpaper_dark.jpg');
+  --hero-overlay: linear-gradient(to right, rgba(7, 18, 12, 0.95) 0%, rgba(7, 18, 12, 0.75) 42%, rgba(7, 18, 12, 0.1) 68%, transparent 100%);
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.45);
+
+  --sparkline-opacity: 0.9;
+}
+
+/* --------------------------------------------------------------------------
+   LIGHT MODE (Commercial Smart-Agri Fresh Botanical Atmosphere)
+   -------------------------------------------------------------------------- */
+:root:has(> head > meta[name="color-scheme"][content="light"]),
+[data-theme="light"] {
+  --bg-body: #f1f7f3;
+  --bg-sidebar: rgba(255, 255, 255, 0.92);
+  --bg-card: rgba(255, 255, 255, 0.94);
+  --bg-card-hover: #ffffff;
+  --bg-card-inner: rgba(240, 249, 243, 0.85);
+  --bg-input: #ffffff;
+
+  --border-card: rgba(16, 185, 129, 0.24);
+  --border-subtle: rgba(16, 185, 129, 0.16);
+  --border-focus: rgba(16, 185, 129, 0.7);
+  --border-glow: 0 0 12px rgba(16, 185, 129, 0.2);
+
+  --brand-neon: #059669;
+  --brand-green: #10b981;
+  --brand-dark-text: #ffffff;
+
+  --text-main: #064e3b;
+  --text-sub: #065f46;
+  --text-dim: #4b5563;
+  --text-heading: #064e3b;
+
+  --hero-wallpaper: url('../../assets/hero_wallpaper_light.jpg');
+  --hero-overlay: linear-gradient(to right, rgba(235, 248, 240, 0.96) 0%, rgba(235, 248, 240, 0.78) 42%, rgba(235, 248, 240, 0.1) 68%, transparent 100%);
+  --shadow-card: 0 4px 18px rgba(16, 185, 129, 0.08);
+
+  --sparkline-opacity: 0.85;
+}
+
+/* RTL Layout Configuration */
+[dir="rtl"] {
+  font-family: var(--font-arabic);
+  --hero-wallpaper: url('../../assets/hero_wallpaper_dark_rtl.jpg');
+  --hero-overlay: linear-gradient(to left, rgba(7, 18, 12, 0.95) 0%, rgba(7, 18, 12, 0.75) 42%, rgba(7, 18, 12, 0.1) 68%, transparent 100%);
+}
+
+[dir="rtl"][data-theme="light"],
+[dir="rtl"]:has(> head > meta[name="color-scheme"][content="light"]) {
+  --hero-wallpaper: url('../../assets/hero_wallpaper_light_rtl.jpg');
+  --hero-overlay: linear-gradient(to left, rgba(235, 248, 240, 0.96) 0%, rgba(235, 248, 240, 0.78) 42%, rgba(235, 248, 240, 0.1) 68%, transparent 100%);
+}
+
+/* ==========================================================================
+   2. Reset & App Layout Structure
+   ========================================================================== */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-body);
+  color: var(--text-main);
+  min-block-size: 100vh;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  transition: background var(--trans-smooth), color var(--trans-smooth);
+}
+
+.app-layout {
+  display: flex;
+  min-block-size: 100vh;
+  inline-size: 100%;
+}
+
+/* ==========================================================================
+   3. Sidebar (Sleek, Compact, Matching IMAGE 1)
+   ========================================================================== */
+
+.app-sidebar {
+  inline-size: 165px;
+  min-inline-size: 165px;
+  background: var(--bg-sidebar);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-inline-end: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  padding: 1.1rem 0.75rem;
+  position: sticky;
+  inset-block-start: 0;
+  block-size: 100vh;
+  z-index: 40;
+}
+
+/* Brand Header */
+.brand-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  text-decoration: none;
+  margin-block-end: 1.25rem;
+  gap: 0.35rem;
+}
+
+.brand-logo {
+  inline-size: 52px;
+  block-size: 52px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 10px rgba(0, 255, 136, 0.4));
+}
+
+.brand-name {
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-heading);
+  line-height: 1.1;
+}
+
+.brand-tagline {
+  font-size: 0.68rem;
+  color: var(--text-dim);
+  font-weight: 500;
+}
+
+/* Navigation List */
+.sidebar-nav {
+  flex-grow: 1;
+}
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 12px;
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 0.825rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+  transition: all var(--trans-fast);
+}
+
+.nav-item:hover {
+  color: var(--text-main);
+  background: var(--bg-card-inner);
+}
+
+/* Active Nav State - Matching Image 1's Green Outlined Glowing Pill */
+.nav-item.active {
+  background: rgba(34, 197, 94, 0.12);
+  border: 1.5px solid var(--brand-green);
+  color: #ffffff;
+  box-shadow: 0 0 15px rgba(34, 197, 94, 0.25);
+}
+
+[data-theme="light"] .nav-item.active {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1.5px solid var(--brand-green);
+  color: var(--brand-neon);
+}
+
+.nav-icon {
+  inline-size: 16px;
+  block-size: 16px;
+  flex-shrink: 0;
+}
+
+.nav-badge-pill {
+  margin-inline-start: auto;
+  background: var(--metric-danger);
+  color: #ffffff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 9999px;
+  line-height: 1.2;
+}
+
+/* Sidebar Hardware Status Box */
+.sidebar-hardware-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 12px;
+  padding: 0.65rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-block-end: 0.75rem;
+  box-shadow: var(--shadow-card);
+}
+
+.hw-status-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.hw-dot {
+  inline-size: 8px;
+  block-size: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 8px #22c55e;
+}
+
+.hw-dot.offline {
+  background: #ef4444;
+  box-shadow: 0 0 8px #ef4444;
+}
+
+.hw-state-text {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  font-weight: 500;
+}
+
+.hw-ip-text {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Sidebar Bottom Realistic Seedling Graphic */
+.sidebar-sprout-container {
+  inline-size: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+}
+
+.sidebar-sprout-img {
+  inline-size: 100%;
+  block-size: 85px;
+  object-fit: cover;
+  display: block;
+}
+
+/* ==========================================================================
+   4. Main Content Area (Layout, Proportions, Alignment)
+   ========================================================================== */
+
+.main-viewport {
+  flex: 1;
+  min-inline-size: 0;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-inline-size: 1320px;
+  margin-inline: auto;
+  inline-size: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   Topbar Navigation
+   -------------------------------------------------------------------------- */
+.app-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  block-size: 38px;
+  margin-block-end: 0.2rem;
+}
+
+.topbar-search {
+  position: relative;
+  inline-size: 280px;
+}
+
+.search-input {
+  inline-size: 100%;
+  block-size: 34px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: 9999px;
+  padding-inline-start: 2.2rem;
+  padding-inline-end: 1rem;
+  color: var(--text-main);
+  font-size: 0.8rem;
+  outline: none;
+  transition: all var(--trans-fast);
+}
+
+[dir="rtl"] .search-input {
+  padding-inline-start: 1rem;
+  padding-inline-end: 2.2rem;
+}
+
+.search-input:focus {
+  border-color: var(--brand-neon);
+  box-shadow: var(--border-glow);
+}
+
+.search-icon {
+  position: absolute;
+  inset-inline-start: 0.8rem;
+  inset-block-start: 50%;
+  transform: translateY(-50%);
+  inline-size: 14px;
+  block-size: 14px;
+  color: var(--text-dim);
+  pointer-events: none;
+}
+
+.topbar-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.topbar-btn {
+  inline-size: 32px;
+  block-size: 32px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  display: grid;
+  place-content: center;
+  cursor: pointer;
+  transition: all var(--trans-fast);
+}
+
+.topbar-btn:hover {
+  border-color: var(--brand-neon);
+  transform: translateY(-1px);
+}
+
+.lang-btn {
+  border-radius: 9999px;
+  inline-size: auto;
+  padding: 0 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* Theme Toggle Capsule (Sun & Moon) */
+.theme-capsule-btn {
+  border-radius: 9999px;
+  padding: 3px 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  block-size: 32px;
+  transition: all var(--trans-fast);
+}
+
+.theme-capsule-btn:hover {
+  border-color: var(--brand-neon);
+}
+
+.sun-icon {
+  color: #fbbf24;
+  display: grid;
+  place-content: center;
+}
+
+.moon-icon {
+  color: #cbd5e1;
+  display: grid;
+  place-content: center;
+}
+
+[data-theme="light"] .moon-icon {
+  color: #64748b;
+}
+
+.user-avatar-badge {
+  inline-size: 32px;
+  block-size: 32px;
+  border-radius: 50%;
+  background: #16a34a;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: grid;
+  place-content: center;
+  border: 1.5px solid var(--brand-green);
+}
+
+/* ==========================================================================
+   5. Hero Banner (Pixel-Matched to IMAGE 1 Reference)
+   ========================================================================== */
+
+.hero-card {
+  block-size: 205px;
+  min-block-size: 205px;
+  background-image: var(--hero-overlay), var(--hero-wallpaper);
+  background-size: cover;
+  background-position: left center, right center;
+  background-repeat: no-repeat;
+  border: 1px solid var(--border-card);
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding: 1.25rem 2rem;
+  box-shadow: var(--shadow-card);
+  transition: all var(--trans-smooth);
+}
+
+[dir="rtl"] .hero-card {
+  background-position: right center, left center;
+}
+
+.hero-left-col {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  max-inline-size: 55%;
+}
+
+.hero-tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 9999px;
+  background: rgba(34, 197, 94, 0.14);
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  color: var(--brand-neon);
+  inline-size: fit-content;
+}
+
+.hero-brand-title {
+  font-size: 2.25rem;
+  font-weight: 900;
+  color: var(--text-heading);
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+.hero-subheading {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--brand-neon);
+  letter-spacing: 0.03em;
+}
+
+.hero-tagline {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  line-height: 1.4;
+  margin-block-end: 0.35rem;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.btn-live-dashboard {
+  background: var(--brand-neon);
+  color: var(--brand-dark-text);
+  font-weight: 800;
+  font-size: 0.8rem;
+  padding: 0.45rem 1.1rem;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 0 14px rgba(0, 255, 136, 0.4);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all var(--trans-fast);
+}
+
+.btn-live-dashboard:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.6);
+}
+
+.btn-learn-more {
+  background: rgba(0, 0, 0, 0.35);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  font-weight: 600;
+  font-size: 0.8rem;
+  padding: 0.45rem 1.1rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all var(--trans-fast);
+}
+
+[data-theme="light"] .btn-learn-more {
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--text-main);
+  border: 1px solid var(--border-card);
+}
+
+.btn-learn-more:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--brand-neon);
+}
+
+/* ==========================================================================
+   6. Five Compact Sensor Metric Cards (Matching IMAGE 1 Proportions)
+   ========================================================================== */
+
+.sensor-cards-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.75rem;
+}
+
+.sensor-pill-card {
+  block-size: 84px;
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-card);
+  border-radius: 14px;
+  padding: 0.65rem 0.85rem 0.35rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  transition: all var(--trans-fast);
+}
+
+.sensor-pill-card:hover {
+  transform: translateY(-2px);
+  background: var(--bg-card-hover);
+  border-color: var(--brand-green);
+}
+
+.card-inner-top {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.sensor-icon-bubble {
+  inline-size: 36px;
+  block-size: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-content: center;
+  flex-shrink: 0;
+}
+
+.temp-bubble {
+  background: rgba(239, 68, 68, 0.16);
+  border: 1px solid var(--metric-temp);
+  color: var(--metric-temp);
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+}
+
+.hum-bubble {
+  background: rgba(56, 189, 248, 0.16);
+  border: 1px solid var(--metric-hum);
+  color: var(--metric-hum);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+}
+
+.soil-bubble {
+  background: rgba(217, 119, 6, 0.16);
+  border: 1px solid var(--metric-soil);
+  color: var(--metric-soil);
+  box-shadow: 0 0 10px rgba(217, 119, 6, 0.3);
+}
+
+.light-bubble {
+  background: rgba(234, 179, 8, 0.16);
+  border: 1px solid var(--metric-light);
+  color: var(--metric-light);
+  box-shadow: 0 0 10px rgba(234, 179, 8, 0.3);
+}
+
+.status-bubble {
+  background: rgba(239, 68, 68, 0.16);
+  border: 1px solid var(--metric-danger);
+  color: var(--metric-danger);
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+}
+
+.status-bubble.optimal {
+  background: rgba(34, 197, 94, 0.16);
+  border-color: var(--metric-optimal);
+  color: var(--metric-optimal);
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.3);
+}
+
+.status-bubble.alert {
+  background: rgba(249, 115, 22, 0.16);
+  border-color: var(--metric-alert);
+  color: var(--metric-alert);
+  box-shadow: 0 0 10px rgba(249, 115, 22, 0.3);
+}
+
+.sensor-data-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.sensor-val {
+  font-size: 1.15rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--text-heading);
+}
+
+.status-val {
+  color: var(--metric-danger);
+}
+
+.sensor-label {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  font-weight: 600;
+}
+
+/* Glowing Neon Sparkline Waves */
+.sensor-wave {
+  inline-size: 100%;
+  block-size: 16px;
+  filter: drop-shadow(0 0 4px currentColor);
+  opacity: var(--sparkline-opacity);
+}
+
+.wave-temp { color: var(--metric-temp); }
+.wave-hum { color: var(--metric-hum); }
+.wave-soil { color: var(--metric-soil); }
+.wave-light { color: var(--metric-light); }
+.wave-status { color: var(--metric-danger); }
+
+/* ==========================================================================
+   7. Lower Dashboard Row (Sensors History, ESP32 Status, Quick Actions)
+   ========================================================================== */
+
+.dashboard-trio-row {
+  display: grid;
+  grid-template-columns: 2.15fr 1.05fr 0.9fr;
+  gap: 0.75rem;
+  flex-grow: 1;
+}
+
+.dash-panel {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-card);
+  border-radius: 14px;
+  padding: 0.85rem 1rem;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  min-block-size: 195px;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-block-end: 0.4rem;
+}
+
+.panel-title-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.panel-heading {
+  font-size: 0.925rem;
+  font-weight: 700;
+  color: var(--text-heading);
+}
+
+.history-legend-dots {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.725rem;
+  font-weight: 600;
+  color: var(--text-dim);
+}
+
+.legend-pill {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.legend-pill i {
+  display: inline-block;
+  inline-size: 7px;
+  block-size: 7px;
+  border-radius: 50%;
+}
+
+.dot-temp { background: var(--metric-temp); }
+.dot-hum { background: var(--metric-hum); }
+.dot-soil { background: var(--metric-soil); }
+
+.history-time-select {
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  padding: 2px 8px;
+  border-radius: 8px;
+  font-size: 0.725rem;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+}
+
+.chart-wrapper-box {
+  flex-grow: 1;
+  inline-size: 100%;
+  min-block-size: 145px;
+  position: relative;
+}
+
+/* ESP32 Status Panel Content */
+.esp32-panel-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
+  margin-block-start: 0.35rem;
+}
+
+.esp32-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.esp32-wifi-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.wifi-glyph {
+  inline-size: 24px;
+  block-size: 24px;
+  filter: drop-shadow(0 0 6px rgba(34, 197, 94, 0.4));
+}
+
+.esp32-status-tag {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #22c55e;
+}
+
+.esp32-ip-tag {
+  font-family: var(--font-mono);
+  font-size: 0.725rem;
+  color: var(--text-dim);
+}
+
+.esp32-hardware-thumbnail {
+  inline-size: 68px;
+  block-size: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.5));
+}
+
+.esp32-last-ping {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.725rem;
+  margin-block-start: auto;
+  padding-block-start: 0.4rem;
+  border-block-start: 1px solid var(--border-subtle);
+}
+
+.last-ping-label {
+  color: var(--text-dim);
+}
+
+.last-ping-val {
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+/* Quick Actions Panel Content */
+.actions-pill-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.quick-pill-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.5rem 0.85rem;
+  border-radius: 9999px;
+  background: var(--bg-card-inner);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--trans-fast);
+}
+
+.quick-pill-btn:hover {
+  background: rgba(34, 197, 94, 0.2);
+  border-color: var(--brand-neon);
+  transform: translateY(-1px);
+}
+
+.btn-icon {
+  inline-size: 15px;
+  block-size: 15px;
+}
+
+/* ==========================================================================
+   8. Footer Bar (Matching Reference Design)
+   ========================================================================== */
+
+.app-footer-bar {
+  margin-block-start: 0.35rem;
+  padding-block: 0.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-block-start: 1px solid var(--border-subtle);
+}
+
+.footer-center-slogan {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.78rem;
+  color: var(--brand-neon);
+  font-weight: 600;
+}
+
+.footer-leaf-icon {
+  inline-size: 16px;
+  block-size: 16px;
+  filter: drop-shadow(0 0 6px var(--brand-neon));
+}
+
+/* ==========================================================================
+   9. Modals & Dialogs (Settings, History, Notifications, About)
+   ========================================================================== */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  display: grid;
+  place-content: center;
+  z-index: 100;
+  padding: 1rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--trans-smooth);
+}
+
+.modal-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-dialog {
+  background: var(--bg-sidebar);
+  border: 1px solid var(--border-card);
+  border-radius: 16px;
+  padding: 1.5rem;
+  max-inline-size: 540px;
+  inline-size: 100%;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+  max-block-size: 85vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-block-end: 1rem;
+  padding-block-end: 0.5rem;
+  border-block-end: 1px solid var(--border-subtle);
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-heading);
+}
+
+.modal-close-btn {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.modal-close-btn:hover {
+  color: var(--text-main);
+}
+
+.form-group {
+  margin-block-end: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-dim);
+}
+
+.form-select,
+.form-input {
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 0.55rem 0.75rem;
+  color: var(--text-main);
+  font-size: 0.85rem;
+  font-family: inherit;
+  outline: none;
+}
+
+.form-select:focus,
+.form-input:focus {
+  border-color: var(--brand-neon);
+  box-shadow: var(--border-glow);
+}
+
+.history-table-container {
+  overflow-x: auto;
+  margin-block-end: 1rem;
+}
+
+.history-table {
+  inline-size: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  text-align: start;
+}
+
+.history-table th,
+.history-table td {
+  padding: 0.5rem;
+  border-block-end: 1px solid var(--border-subtle);
+}
+
+.history-table th {
+  color: var(--brand-neon);
+  font-weight: 700;
+}
+
+.notification-item {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 10px;
+  background: var(--bg-card-inner);
+  border: 1px solid var(--border-subtle);
+  margin-block-end: 0.5rem;
+}
+
+.notif-badge {
+  inline-size: 8px;
+  block-size: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  margin-block-start: 6px;
+  flex-shrink: 0;
+}
+
+.notif-badge.alert { background: var(--metric-alert); }
+.notif-badge.danger { background: var(--metric-danger); }
+
+/* ==========================================================================
+   10. Responsive Breakpoints
+   ========================================================================== */
+
+@media (max-width: 1100px) {
+  .sensor-cards-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .dashboard-trio-row {
+    grid-template-columns: 1fr 1fr;
+  }
+  .actions-panel {
+    grid-column: span 2;
+  }
+  .actions-pill-stack {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 860px) {
+  .app-sidebar {
+    inline-size: 72px;
+    min-inline-size: 72px;
+    padding: 0.85rem 0.4rem;
+  }
+  .brand-name, .brand-tagline, .nav-item span, .hw-state-text, .hw-ip-text, .sidebar-sprout-container {
+    display: none;
+  }
+  .nav-item {
+    justify-content: center;
+    padding: 0.6rem;
+  }
+  .hw-status-header {
+    justify-content: center;
+  }
+  .hero-card {
+    block-size: auto;
+    min-block-size: 210px;
+    padding: 1.25rem 1rem;
+    background-position: right 20% center;
+  }
+  .hero-left-col {
+    max-inline-size: 100%;
+    background: rgba(7, 18, 12, 0.72);
+    backdrop-filter: blur(8px);
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-subtle);
+  }
+  [data-theme="light"] .hero-left-col {
+    background: rgba(255, 255, 255, 0.8);
+  }
+  .hero-actions {
+    flex-wrap: wrap;
+  }
+  .sensor-cards-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .dashboard-trio-row {
+    grid-template-columns: 1fr;
+  }
+  .actions-panel {
+    grid-column: span 1;
+  }
+}

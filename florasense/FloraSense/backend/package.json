@@ -1,0 +1,25 @@
+{
+  "name": "florasense-backend",
+  "version": "1.0.0",
+  "description": "FloraSense Smart Agriculture IoT Platform - Backend API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": [
+    "iot",
+    "smart-agriculture",
+    "esp32",
+    "mongodb",
+    "express"
+  ],
+  "author": "FloraSense Team",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongodb": "^6.5.0"
+  }
+}

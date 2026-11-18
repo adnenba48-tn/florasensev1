@@ -1,0 +1,19 @@
+{
+  "name": "florasense",
+  "version": "2.0.0",
+  "description": "FloraSense — Complete Premium IoT Smart Agriculture Platform",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "test": "node --test backend/test/*.test.js"
+  },
+  "keywords": [
+    "iot",
+    "smart-agriculture",
+    "esp32",
+    "mongodb",
+    "dashboard"
+  ],
+  "author": "FloraSense Team",
+  "license": "ISC"
+}
